@@ -2,20 +2,25 @@ import React from 'react'
 import connect from './myredux/connect'
 
 function Counter(props) {
-	const { count } = props;
+	const { count, increment } = props;
 
 	return (
 		<div>
-		<p>You clicked {count} times</p>
-		<button onClick={()=>{}}>
-			Click me
-		</button>
+			<p>You clicked {count} times</p>
+			<button onClick={increment}>
+				Click me
+			</button>
 		</div>
 	);
 }
 
 function mapStateToProps(state) {
-	return { number: state.count }
+	return { count: state.count }
 }
 
-export default connect(mapStateToProps)(Counter)
+
+function mapDispatchToProps(dispatch) {
+	return { increment: () => dispatch({type: 'increment'}) }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter)
