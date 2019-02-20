@@ -5,6 +5,8 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import createStore from './myredux/createStore'
 import Provider from './myredux/Provider'
+import applyMiddleware from './myredux/applyMiddleware'
+import loggerMiddleware from './myredux/loggerMiddleware'
 
 function counterReducer(state, action) {
     if (state === undefined) {
@@ -20,7 +22,7 @@ function counterReducer(state, action) {
 
 
 ReactDOM.render(
-    <Provider store={createStore(counterReducer)}>
+    <Provider store={createStore(counterReducer, undefined, applyMiddleware(loggerMiddleware))}>
         <App />
     </Provider>,
     document.getElementById('root')

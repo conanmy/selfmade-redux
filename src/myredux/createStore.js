@@ -1,5 +1,9 @@
-export default function(reducer) {
-    let state = undefined
+export default function createStore(reducer, preloadedState, enhancer) {
+    if (enhancer) {
+        return enhancer(createStore)(reducer, preloadedState)
+    }
+
+    let state = preloadedState
     let listeners = []
 
     function subscribe(listener) {
