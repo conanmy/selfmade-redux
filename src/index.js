@@ -7,22 +7,26 @@ import createStore from './myredux/createStore'
 import Provider from './myredux/Provider'
 import applyMiddleware from './myredux/applyMiddleware'
 import loggerMiddleware from './myredux/loggerMiddleware'
+import thunkMiddleware from './myredux/thunkMiddleware'
 
 function counterReducer(state, action) {
     if (state === undefined) {
         return { count: 0 };
     }
     if (action.type === 'increment') {
-        return Object.assign(state, { count: state.count + 1})
+        return Object.assign(state, { count: state.count + 1 })
     }
     if (action.type === 'decrement') {
-        return Object.assign(state, { count: state.count - 1})
+        return Object.assign(state, { count: state.count - 1 })
+    }
+    if (action.type === 'set') {
+        return Object.assign(state, { count: action.payload })
     }
 }
 
 
 ReactDOM.render(
-    <Provider store={createStore(counterReducer, undefined, applyMiddleware(loggerMiddleware))}>
+    <Provider store={createStore(counterReducer, undefined, applyMiddleware(loggerMiddleware, thunkMiddleware))}>
         <App />
     </Provider>,
     document.getElementById('root')

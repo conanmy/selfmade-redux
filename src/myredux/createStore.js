@@ -15,6 +15,9 @@ export default function createStore(reducer, preloadedState, enhancer) {
     }
 
     function dispatch(action) {
+        if (typeof action !== 'object') {
+            return;
+        }
         state = reducer(state, action)
         listeners.map(listener => listener())
     }

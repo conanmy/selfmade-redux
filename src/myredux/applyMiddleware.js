@@ -4,14 +4,18 @@ export default function applyMiddleware(...middlewares) {
         
         return function(reducer, preloadedState, enhancer) {
             const store = createStore(reducer, preloadedState, enhancer)
+            // this dispatch used in storeConotext should point to the final dispatch, 
+            // or else middlewares will use the real store's dispatch which skips middlewares
+            let dispatch = store.dispatch
+
             const storeContext = {
                 getState: store.getState,
-                dispatch: store.dispatch
+                dispatch: (action) => dispatch(action)
             }
 
             const chain = middlewares.map(middleware => middleware(storeContext))
 
-            const dispatch = compose(...chain)(store.dispatch)
+            dispatch = compose(...chain)(store.dispatch)
 
             // purpose of applyMiddleware is to make a enhanced dispatch who can go through middlewares
             return {
