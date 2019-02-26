@@ -1,8 +1,10 @@
 import React from 'react'
-import connect from './myredux/connect'
+import useStore from './myredux/useStore'
 
-function Counter(props) {
-	const { count, increment, reset } = props;
+export default function Counter() {
+	const [ state, dispatch ] = useStore()
+	const { count } = mapStateToProps(state)
+	const { increment, reset } = mapDispatchToProps(dispatch)
 
 	return (
 		<div>
@@ -35,5 +37,3 @@ function mapDispatchToProps(dispatch) {
 		})
 	}
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Counter)
